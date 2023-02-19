@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Statistics from '../Statistics/Statistics';
+import FeedbackOptions from './FeedbackOptions';
+import Section from '../Section/Section';
+import Notification from '../Notification/Notification';
 
-class FeadBack extends React.Component {
+
+class Feadback extends Component {
     state = {
         good: 0,
         neutral: 0,
@@ -8,62 +13,76 @@ class FeadBack extends React.Component {
     }
 
     onIncrementGood = () => {
-        this.countTotalFeedback()
         this.setState(prevState => {
             return {
                 good: prevState.good + 1,
             }
         })
+        return this.countTotalFeedback()
     }
 
     onIncrementNeutral = () => {
-        this.countTotalFeedback()
         this.setState(prevState => {
             return {
                 neutral: prevState.neutral + 1
             }
         })
+        this.countTotalFeedback()
     }
 
     onIncrementBad = () => {
-        this.countTotalFeedback()
         this.setState(prevState => {
             return {
                 bad: prevState.bad + 1
             }
         })
+        this.countTotalFeedback()
     }
 
     countTotalFeedback = () => {
-        this.setState(() => {
+        this.setState((prevState) => {
             return {
-                total: this.state.good + this.state.neutral + this.state.bad + 1,
+                total: prevState.good + prevState.neutral + prevState.bad,
             }
         })
-        // return prevState.good + prevState.neutral + prevState.bad
+        this.countPositiveFeedbackPercentage()
     }
-    countPositiveFeedbackPercentage() { }
+
+    countPositiveFeedbackPercentage() {
+        this.setState((prevState) => {
+            let totalFeedback = Math.round(prevState.good * 100 / prevState.total);
+            return {
+                feedback: totalFeedback
+            }
+        })
+    }
 
     render() {
+        const { good, neutral, bad, total, feedback } = this.state
+
         return (
             <div className="Feedback">
-                <h1>Please leave feedback</h1>
+                <Section title="Please leave feedback">
+                    <FeedbackOptions
+                        onIncrementGood={this.onIncrementGood}
+                        onIncrementNeutral={this.onIncrementNeutral}
+                        onIncrementBad={this.onIncrementBad}
+                        onLeaveFeedback="Please leave feedback" />
+                </Section >
 
-                <button onClick={this.onIncrementGood}>Good</button>
-                <button onClick={this.onIncrementNeutral}>Natural</button>
-                <button onClick={this.onIncrementBad}>Bad</button>
-
-                <h2>Statistic</h2>
-
-                <p>Good: {this.state.good}</p>
-                <p>Natural: {this.state.neutral}</p>
-                <p>Bad: {this.state.bad}</p>
-                <p>Total:{this.state.total}</p>
-                <p>Positive feedback: 0</p>
+                <Section title="Statistics">
+                    {!good && !neutral && !bad
+                        ? <Notification message="There is no feedback" />
+                        : <Statistics good={good}
+                            neutral={neutral}
+                            bad={bad}
+                            total={total}
+                            positivePercentage={feedback} />}
+                </Section>
 
             </div>
         )
     }
 }
 
-export default FeadBack;
+export default Feadback;
