@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { BtnWrapper, ButtonStat } from "./FeedbackOptions.styled";
 
 const FeedbackOptions = ({ onIncrementGood, onIncrementNeutral, onIncrementBad }) => {
@@ -9,3 +11,9 @@ const FeedbackOptions = ({ onIncrementGood, onIncrementNeutral, onIncrementBad }
 }
 
 export default FeedbackOptions;
+
+FeedbackOptions.propTypes = {
+    onIncrementGood: PropTypes.func.isRequired,
+    onIncrementNeutral: PropTypes.func.isRequired,
+    onIncrementBad: PropTypes.func.isRequired,
+}

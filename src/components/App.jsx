@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Statistics from './Section-Feedback/Statistics/Statistics';
 import FeedbackOptions from './Section-Feedback/Feedback/FeedbackOptions';
 import Section from './Section-Feedback/Section/Section';
@@ -93,3 +94,10 @@ class App extends Component {
     }
 }
 export default App;
+
+App.propTypes = {
+    defaultProps: PropTypes.shape({
+        step: PropTypes.number.isRequired,
+        initialValue: PropTypes.number.isRequired
+    })
+}
