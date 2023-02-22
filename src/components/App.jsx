@@ -23,7 +23,7 @@ class App extends Component {
                 good: prevState.good + this.props.step,
             };
         });
-        return this.countTotalFeedback();
+        this.countTotalFeedback();
     };
 
     incrementNeutral = () => {
@@ -50,6 +50,7 @@ class App extends Component {
                 total: prevState.good + prevState.neutral + prevState.bad,
             };
         });
+
         this.countPositiveFeedbackPercentage();
     };
 
